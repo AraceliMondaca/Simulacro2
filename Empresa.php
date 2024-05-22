@@ -97,7 +97,7 @@ public function informarSumaVentasNacionales() {
 public function informarVentasImportadas() {
     $ventasImportadas = [];
     foreach ($this->getColVenta() as $venta) {
-        if ($venta->retornarMotosImportadas()) {
+        if (count($venta->retornarMotosImportadas())>0) {
             $ventasImportadas[] = $venta;
         }
     }
