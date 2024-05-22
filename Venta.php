@@ -47,12 +47,14 @@ public function setPrecioFinal($precioFinal){
 
 
 public function incorporarMoto($objColMoto){
-    $dispo = $objColMoto->getActiva();
-    if ($dispo) {
-        $this->objColMoto[] = $objColMoto;
-        $this->precioFinal += $objColMoto->darPrecioVenta();
+$precioVenta= $objColMoto->darPrecioVenta();
+$ColeccionMotos= $this->getObjColMoto();
+    if ($precioVenta>0) {
+       array_push($ColeccionMotos,$objColMoto);
+$this->setObjColMoto($coleccionMotos);
+$this->setPrecioFinal($this->getPrecioFinal()+$precioVenta);
     }
-    return print_r($this->objColMoto);
+    
 }
 
 public function retornarTotalVentaNacional() {
