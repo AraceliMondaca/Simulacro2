@@ -48,7 +48,7 @@ public function retornarMoto($codigoMoto){
  $coleccionMotos=$this->getColMoto();
  $colmoto=null;
  $i=0;
- while($i<count(ColeccionMotos) && $colmoto == null){
+ while($i<count($coleccionMotos) && $colmoto == null){
    if ($coleccionMotos[$i]=$codigoMoto){
                 $colmoto= $coleccionMotos[$i]; 
  }
@@ -61,19 +61,23 @@ public function retornarMoto($codigoMoto){
         $numV = count($this->getColVenta()) + 1;
         $fec = date("y");
         $ventaN = new Venta($numV, $fec, $objCliente, [], 0);
-        $importeFinal = 0;
+        //$importeFinal = 0;
         $coleccionVentas=$this->getColVenta();
         foreach ($colCodigosMoto as $codigo) {
             $moto = $this->retornarMoto($codigo);
-            if ($moto !== null && $moto->getActiva()) {
+            if ($moto!=null && $objCliente instanceof Cliente && $moto instanceof Moto){
+                if($moto->getActiva()==true && $objCliente->getActivo()==true ) {
                 $ventaN->incorporarMoto($moto);
             }
+            }
         }
-      if (count($ventaN->getColMoto()>0){
-          array_push(coleccionVentas,$ventaN);
-           $this->setColVenta(coleccionVentas);
+      if (count($ventaN->getObjColMoto())>0){
+          array_push($coleccionVentas,$ventaN);
+           $this->setColVenta($coleccionVentas);
+           
         }
-        return  $ventaN->getPrecioFinal();
+     
+        return     $ventaN->getPrecioFinal();
     }
 
   
@@ -108,13 +112,29 @@ public function informarVentasImportadas() {
     return $motoImport;
 }
 
+private function arregloString($array) {
+    $cadena = '';
+    if (is_array($array)) {
+        foreach ($array as $elemento) {
+            if (is_array($elemento)) {
+                $cadena .= $this->arregloString($elemento);
+            } else {
+                $cadena .= $elemento . "\n";
+            }
+        }
+    }
+    return $cadena; 
+}
 public function __toString(){
+    $stringClientes=$this->arregloString($this->getColCliente());
+    $stringMotos=$this->arregloString($this->getColMoto());
+    $stringventas=$this->arregloString($this->getColVenta());
     $datos="   INFORMACIÓN DE EMPRESA   \n". 
     "Denominación: ".$this->getDenominacion()."\n". 
     "Dirección: ".$this->getDireccion()."\n". 
-    "\n".$this->getColCliente()."\n". 
-    "\n".$this->getColMoto()."\n". 
-    "\n".$this->getColVenta();
+    "\n".$stringClientes."\n". 
+    "\n". $stringMotos."\n". 
+    "\n".$stringventas;
     return $datos;
 }
 
