@@ -51,7 +51,7 @@ $precioVenta= $objColMoto->darPrecioVenta();
 $ColeccionMotos= $this->getObjColMoto();
     if ($precioVenta>0) {
        array_push($ColeccionMotos,$objColMoto);
-$this->setObjColMoto($coleccionMotos);
+$this->setObjColMoto($ColeccionMotos);
 $this->setPrecioFinal($this->getPrecioFinal()+$precioVenta);
     }
     
@@ -78,12 +78,27 @@ public function retornarMotosImportadas(){
     return $importadas;
 }
 
+private function arregloString($array) {
+    $cadena = '';
+    if (is_array($array)) {
+        foreach ($array as $elemento) {
+            if (is_array($elemento)) {
+                $cadena .= $this->arregloString($elemento);
+            } else {
+                $cadena .= $elemento . "\n";
+            }
+        }
+    }
+    return $cadena; 
+}
 public function __toString(){
+    $stringCliente=$this->arregloString($this->getObjCliente());
+    $stringMoto=$this->arregloString($this->getObjColMoto());
     $venta="   INFORMACIÓN DE LA VENTA   \n". 
     "Numero: ".$this->getNumero()."\n". 
     "Fecha: ".$this->getFecha()."\n". 
-    "\n".$this->getObjCliente()."\n". 
-    "\n".$this->getObjColMoto()."\n". 
+    "\n".$stringCliente."\n". 
+    "\n".$stringMoto."\n". 
     "Precio Final: ".$this->getPrecioFinal();
     return $venta;
 }
