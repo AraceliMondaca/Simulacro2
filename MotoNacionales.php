@@ -4,7 +4,7 @@ class MotoNacionales extends Moto{
 
     public function __construct($codigo,$costo,$anioFab,$descripcion,$incrementoAnual,$activa,$descuento){
         parent::__construct($codigo,$costo,$anioFab,$descripcion,$incrementoAnual,$activa);
-     $this->descuento=$descuento;
+     $this->descuento=$descuento ?? 15 ;
     }
     public function getDescuento(){
         return $this->descuento;
@@ -15,9 +15,9 @@ class MotoNacionales extends Moto{
 
     public function darPrecioVenta(){
         $Preciobase=parent::darPrecioVenta();
-        $venta= $Preciobase * (1 - $this->descuento);
-        if ($Preciobase < 0) {
-            $venta= -1; 
+        $venta= -1; 
+        if ($Preciobase > 0) {
+            $venta= $Preciobase - (( $this->getDescuento()* $Preciobase)/100);
         }
         return $venta;
     }
