@@ -45,12 +45,15 @@ public function setColVenta($colVenta){
 
 
 public function retornarMoto($codigoMoto){
-        foreach ($this->colMoto as $moto) {
-            if ($moto->getCodigo() == $codigoMoto){
-                $colmoto= $moto; 
-            }
-        }
-        $colmoto=null;
+ $coleccionMotos=$this->getColMoto();
+ $colmoto=null;
+ $i=0;
+ while($i<count(ColeccionMotos) && $colmoto == null){
+   if ($coleccionMotos[$i]=$codigoMoto){
+                $colmoto= $coleccionMotos[$i]; 
+ }
+  $i++;
+ }
         return $colmoto;
     }    
 
@@ -59,26 +62,26 @@ public function retornarMoto($codigoMoto){
         $fec = date("y");
         $ventaN = new Venta($numV, $fec, $objCliente, [], 0);
         $importeFinal = 0;
-    
+        $coleccionVentas=$this->getColVenta();
         foreach ($colCodigosMoto as $codigo) {
             $moto = $this->retornarMoto($codigo);
             if ($moto !== null && $moto->getActiva()) {
                 $ventaN->incorporarMoto($moto);
-                $importeFinal += $moto->darPrecioVenta();
             }
         }
-        $ventaN->setPrecioFinal($importeFinal);
-        $this->colVenta[] = $ventaN;
-        return $importeFinal;
+      if (count($ventaN->getColMoto()>0){
+          array_push(coleccionVentas,$ventaN);
+           $this->setColVenta(coleccionVentas);
+        }
+        return  $ventaN->getPrecioFinal();
     }
 
   
-
-
     public function retornarVentasXCliente($tipo, $numDoc) {
         $ventasCliente = [];
-        foreach ($this->colVenta as $venta) {
-            if ($venta->getTipoDoc() == $tipo && $venta->getNumDoc() == $numDoc) {
+        $ventas=$this->getColVenta();
+        foreach ($ventas as $venta) {
+            if ($venta->getColCliente()->getTipoDoc() == $tipo && $venta->getColCliente()->getNumDoc() == $numDoc) {
                 $ventasCliente[] = $venta;
             }
         }
