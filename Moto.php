@@ -57,13 +57,12 @@ public function setActiva($activa){
 
 
 public function darPrecioVenta(){
+    $venta=0;
     $disponible=$this->getActiva();
     $compra=$this->getCosto();
     $anio = date("Y") - $this->getAnioFab();
     $por_inc_anual=$this->getIncrementoAnual();
-    if($disponible == false){
-    $venta=0;
-    }else{
+    if($disponible != false){
     $venta= $compra + $compra * ($anio * $por_inc_anual);
 } 
 return $venta;
