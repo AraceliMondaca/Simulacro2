@@ -60,19 +60,21 @@ $this->setPrecioFinal($this->getPrecioFinal()+$precioVenta);
 public function retornarTotalVentaNacional() {
     $total = 0;
     foreach ($this->objColMoto as $moto) {
-        if (get_class($moto) === 'MotoNacionales') {
-            $total += $moto->darPrecioVenta();
+        if ($moto instanceof MotoNacionales) {
+            if($moto->darPrecioVenta()>0){
+                $total += $moto->darPrecioVenta();
         }
-    }
+        }
+}
     return $total;
 }
 public function retornarMotosImportadas(){
     $importadas = [];
-    foreach ($this->objColMoto as $moto) {
-        if (get_class($moto) === 'MotoImportadas') {
+    foreach ($this->objColMoto as $moto){
+        if ($moto instanceof MotoImportadas){
             $importadas[] = $moto;
         }
-    }
+}
     return $importadas;
 }
 
