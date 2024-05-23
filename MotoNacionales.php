@@ -30,8 +30,6 @@ class MotoNacionales extends Moto{
     return $nacional;
     
    }
-
-    
    
 }
 ?>
